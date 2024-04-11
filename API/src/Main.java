@@ -1,11 +1,25 @@
+package src;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-
+        Scanner leitura = new Scanner(System.in);
         ConsultaCep consultaCep = new ConsultaCep();
-        Endereco novoEndereco = consultaCep.buscaEndereco("01001000");
-        System.out.println(novoEndereco);
+
+        System.out.println("Digite um número de CEP para a consult: ");
+        var cep = leitura.nextLine();
+
+        try {
+            Endereco novoEndereco = consultaCep.buscaEndereco(cep);
+            System.out.println(novoEndereco);
+            GeradorDeArquivo gerador = new GeradorDeArquivo();
+            gerador.salvaJson(novoEndereco);
+        }catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            System.out.println("finalizando operação.");
+        }
+
 
     }
 }
